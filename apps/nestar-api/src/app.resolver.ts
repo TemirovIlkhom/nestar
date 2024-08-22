@@ -6,4 +6,4 @@ export class AppResolver {
     public sayHello(): string {
         return 'GraphQL API Server';
     }
-}
+};
