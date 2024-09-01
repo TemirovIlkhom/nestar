@@ -44,7 +44,7 @@ export class MemberService {
         const isMatch = await this.authService.comparePasswords(input.memberPassword, response.memberPassword);
         if (!isMatch) throw new InternalServerErrorException(Message.WRONG_PASSWORD);
         response.accessToken = await this.authService.createToken(response);
-        
+
         return response;
     }
 
@@ -53,6 +53,14 @@ export class MemberService {
     }
 
     public async getMember(): Promise<string> {
+        return "getMember executed!";
+    }
+
+    public async getAllMemberByAdmin(): Promise<string> {
+        return "updateMember executed!";
+    }
+
+    public async updateMemberByAdmin(): Promise<string> {
         return "getMember executed!";
     }
 }
