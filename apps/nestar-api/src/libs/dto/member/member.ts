@@ -78,4 +78,7 @@ createdAt: Date;
 @Field(() => Date)
 updatedAt: Date;
 
+@Field(() => String, { nullable: true })
+accessToken?: string;
+
 }
