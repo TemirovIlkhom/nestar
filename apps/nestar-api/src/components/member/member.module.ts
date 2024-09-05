@@ -16,6 +16,7 @@ import { AuthModule } from '../auth/auth.module';
     AuthModule,
     ViewModule,
   ],
-  providers: [MemberResolver, MemberService]
+  providers: [MemberResolver, MemberService],
+  exports: [MemberService],
 })
 export class MemberModule {}
