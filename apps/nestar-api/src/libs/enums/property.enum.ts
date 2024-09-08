@@ -10,7 +10,7 @@ registerEnumType(PropertyType, {
 });
 
 export enum PropertyStatus {
-	HOLD = 'HOLD',
+	// HOLD = 'HOLD',
 	ACTIVE = 'ACTIVE',
 	SOLD = 'SOLD',
 	DELETE = 'DELETE',
