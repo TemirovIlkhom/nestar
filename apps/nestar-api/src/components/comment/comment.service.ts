@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException,  } from '@nestjs/common';
 import { Model, ObjectId } from 'mongoose';
 import { PropertyService } from '../property/property.service';
 import { MemberService } from '../member/member.service';
@@ -10,7 +10,8 @@ import { CommentGroup, CommentStatus } from '../../libs/enums/comment.enum';
 import { Comment, Comments } from '../../libs/dto/comment/comment';
 import { CommentUpdate } from '../../libs/dto/comment/comment.update';
 import { T } from '../../libs/types/common';
-import { lookupMember } from '../../libs/config';
+import { lookupMember,  } from '../../libs/config';
+
 
 
 @Injectable()
@@ -103,5 +104,10 @@ public async getComments (memberId: ObjectId, input: CommentsInquiry): Promise<C
     if (!result.length) throw new InternalServerErrorException (Message.NO_DATA_FOUND);
     return result[0];
 }
- 
-    }
+
+public async removeCommentByAdmin (input: ObjectId): Promise<Comment> {
+    const result = await this. commentModel.findByIdAndDelete(input);
+    if (result) throw new InternalServerErrorException (Message.REMOVE_FAILED);
+    return result;
+}
+}
