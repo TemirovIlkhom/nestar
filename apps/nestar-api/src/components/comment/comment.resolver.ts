@@ -57,6 +57,6 @@ public async updateComment (
         public async removeCommentByAdmin(@Args('commentId') input: string): Promise<Comment> {
             console.log('Mutation: removeCommentByAdmin');
             const commentId = shapeIntoMongoObjectId(input);
-            return await this.commentService.removeCommentByAdmin
+            return await this.commentService.removeCommentByAdmin(commentId);
         }
 }
