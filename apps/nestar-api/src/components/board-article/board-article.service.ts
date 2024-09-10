@@ -14,7 +14,8 @@ import { lookupMember, shapeIntoMongoObjectId } from '../../libs/config';
 
 @Injectable()
 export class BoardArticleService {
-    constructor(@InjectModel('BoardArticle') private readonly boardArticleModule: Model<BoardArticle>,
+    constructor(
+        @InjectModel('BoardArticle') private readonly boardArticleModule: Model<BoardArticle>,
     private readonly memberService: MemberService,
     private readonly viewService: ViewService,
 ){}
