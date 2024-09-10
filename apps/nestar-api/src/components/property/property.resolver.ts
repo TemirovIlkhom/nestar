@@ -74,15 +74,18 @@ return await this.propertyService.getAgentProperties (memberId, input);
     }
 
     /** ADMIN **/
+
+
     @Roles(MemberType.ADMIN)
-    @UseGuards (RolesGuard)
+    @UseGuards(RolesGuard)
     @Query((returns) => Properties)
-public async getAllPropertiesByAdmin(
-    @Args('input') input: AllPropertiesInquiry,
-    @AuthMember('_id') memberId: ObjectId,
-): Promise<Properties> {
-    console.log ( 'Query: getAllPropertiesByAdmin');
-return await this.propertyService.getAllPropertiesByAdmin(input);
+    public async getAllPropertiesByAdmin(
+        @Args('input') input: AllPropertiesInquiry,
+        @AuthMember('_id') memberId : ObjectId,
+    ): Promise<Properties> {
+       console.log('Mutation: getAllPropertiesByAdmin');
+       return await this.propertyService.getAllPropertiesByAdmin( input )
+       
     }
 
     @Roles(MemberType.ADMIN)
