@@ -21,21 +21,21 @@ export class BoardArticleService {
 ){}
 
 public async createBoardArticle(memberId: ObjectId, input: BoardArticleInput): Promise<BoardArticle> {
-    input.memberId = memberId;
-    try {
-    const result = await this.boardArticleModule.create(input);
-    await this.memberService.memberStatsEditor({
-    _id: memberId, 
-    targetKey: 'memberArticles',
-    modifier: 1,
-    });
+    input.memberId = memberId
+    try{
+      const result = await this.boardArticleModule.create(input)
+      await this.memberService.memberStatsEditor({
+        _id: memberId,
+        targetKey: 'memberArticles',
+        modifier: 1
+      })
 
-    return result;
-    } catch (err) {
-    console.log('Error, Service.model: ', err.message); 
-    throw new BadRequestException(Message.CREATE_FAILED);
+      return result
+    }catch(err){
+     console.log('Error, Service.module', err.message);
+     throw new BadRequestException(Message.CREATE_FAILED)
     }
-}
+   }
 
 public async getBoardArticle(memberId: ObjectId, articleId: ObjectId): Promise<BoardArticle> {
     const search: T = {

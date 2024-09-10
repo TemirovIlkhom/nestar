@@ -20,12 +20,14 @@ export class BoardArticleResolver {
     @UseGuards(AuthGuard)
     @Mutation((returns) => BoardArticle)
     public async createBoardArticle(
-    @Args('input') input: BoardArticleInput,
-    @AuthMember('._id') memberId: ObjectId,
-): Promise<BoardArticle> {
-console.log( 'Mutation: createBoardArticle');
-return await this.boardArticleService.createBoardArticle(memberId, input);
-}
+        @Args('input') input: BoardArticleInput,
+        @AuthMember('_id') memberId : ObjectId,
+    ): Promise<BoardArticle>{
+        console.log('Mutation:createBoardArticle');
+        return await this.boardArticleService.createBoardArticle(memberId, input)
+        
+    }
+
 
     @UseGuards(WithoutGuard)
     @Query((returns) => BoardArticle)
