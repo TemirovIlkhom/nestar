@@ -12,7 +12,7 @@ import { StatisticModifier, T } from '../../libs/types/common';
 import { ViewGroup } from '../../libs/enums/view.enum';
 import  * as moment from 'moment'; 
 import { PropertyUpdate } from '../../libs/dto/property/property.update';
-import { lookupMember, shapeIntoMongoObjectId } from '../../libs/config';
+import { lookupAuthMemberLiked, lookupMember, shapeIntoMongoObjectId } from '../../libs/config';
 import { LikeService } from '../like/like.service';
 import { LikeGroup } from '../../libs/enums/like.enum';
 import { LikeInput } from '../../libs/dto/like/like.input';
@@ -101,20 +101,20 @@ export class PropertyService {
 
         const result = await this.propertyModel
         .aggregate([
-        { $match: match }, 
-        { $sort: sort },
-        {
-        $facet: {
-        list: [
-        { $skip: (input.page - 1) * input.limit },
-        { $limit: input.limit },
-        // meLiked
-        lookupMember,
-        { $unwind: '$memberData' },
-        ],
-        metaCounter: [{ $count: 'total' }],
-    },
-},
+            { $match: match }, 
+            { $sort: sort },
+            {
+                $facet: {
+                    list: [
+                        { $skip: (input.page -1) * input.limit },
+                        { $limit: input.limit },
+                        lookupAuthMemberLiked(memberId),
+                        lookupMember,
+                        { $unwind: '$memberData' },
+                    ],
+                    metaCounter: [{ $count: 'total' }],
+                },
+            },
         ])
         .exec();
         if (!result.length) throw new InternalServerErrorException (Message.NO_DATA_FOUND) ;
