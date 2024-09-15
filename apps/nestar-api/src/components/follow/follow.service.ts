@@ -4,7 +4,7 @@ import { Model, ObjectId } from 'mongoose';
 import { Follower, Followers, Following, Followings } from '../../libs/dto/follow/follow';
 import { MemberService } from '../member/member.service';
 import { Direction, Message } from '../../libs/enums/common.enum';
-import { lookupAuthMemberLiked, lookupFollowerData, lookupFollowingData } from '../../libs/config';
+import { lookupAuthMemberFollowed, lookupAuthMemberLiked, lookupFollowerData, lookupFollowingData } from '../../libs/config';
 import { T } from '../../libs/types/common';
 import { FollowInquiry } from '../../libs/dto/follow/follow.input';
 
@@ -74,9 +74,12 @@ public async getMemberFollowings (memberId: ObjectId, input: FollowInquiry): Pro
                     { $skip: (page - 1) * limit }, 
                     { $limit: limit },
                     lookupAuthMemberLiked(memberId, "$followingId"),
-    // meFollowed
-    lookupFollowingData,
-    { $unwind: '$followingData' },
+                    lookupAuthMemberFollowed({
+                        followerId: memberId, 
+                        followingId: '$followingId'
+                    }),
+                    lookupFollowingData,
+                    { $unwind: '$followingData' },
                  ], 
                  metaCounter: [{ $count: 'total' }],
                 },
@@ -105,9 +108,12 @@ public async getMemberFollowers(memberId: ObjectId, input: FollowInquiry): Promi
                     { $skip: (page - 1) * limit }, 
                     { $limit: limit },
                     lookupAuthMemberLiked(memberId, "$followerId"),
-    // meFollowed
-    lookupFollowerData,
-    { $unwind: '$followerData' },
+                    lookupAuthMemberFollowed({
+                        followerId: memberId, 
+                        followingId: '$followerId'
+                    }),
+                    lookupFollowerData,
+                    { $unwind: '$followerData' },
                  ], 
                  metaCounter: [{ $count: 'total' }],
                 },
