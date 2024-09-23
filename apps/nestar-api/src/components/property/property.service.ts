@@ -6,7 +6,7 @@ import { ViewService } from '../view/view.service';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { MemberService } from '../member/member.service';
 import { Properties, Property } from '../../libs/dto/property/property';
-import { AgentPropertiesInquiry, AllPropertiesInquiry, PropertiesInquiry, PropertyInput } from '../../libs/dto/property/property.input';
+import { AgentPropertiesInquiry, AllPropertiesInquiry, OrdinaryInquiry, PropertiesInquiry, PropertyInput } from '../../libs/dto/property/property.input';
 import { PropertyStatus } from '../../libs/enums/property.enum';
 import { StatisticModifier, T } from '../../libs/types/common';
 import { ViewGroup } from '../../libs/enums/view.enum';
@@ -145,10 +145,15 @@ if (squaresRange) match.propertySquare = { $gte: squaresRange.start, $lte: squar
 if (text) match.propertyTitle = { $regex: new RegExp(text, 'i') };
 if (options) {
 match ['$or'] = options.map ( (ele) => {
-return { [ele]: true };
-});
-}
+    return { [ele]: true };
+        });
     }
+}
+
+public async getFavorites(memberId: ObjectId, input: OrdinaryInquiry): Promise<Properties> {
+    return await this.likeService.getFavoriteProperties(memberId, input);
+
+}
 
     public async getAgentProperties (memberId: ObjectId, input: AgentPropertiesInquiry): Promise<Properties> {
         const { propertyStatus } = input.search;
